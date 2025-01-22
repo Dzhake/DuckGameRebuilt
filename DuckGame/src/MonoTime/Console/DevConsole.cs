@@ -477,11 +477,12 @@ namespace DuckGame
                         
                         DCLine dcLine = _core.lines.ElementAt(itemTrueIndex);
 
-                        string lineNumber = itemTrueIndex.ToString().PadLeft(4, '0');
+                        int lineNum = (itemTrueIndex + _core.lineOffset) % 10000;
+                        string lineNumber = lineNum.ToString().PadLeft(4, '0');
                         string timeString = $"{dcLine.timestamp:HH:mm:ss} ";
                         lineNumber = timeString + lineNumber;
                         float posX = 4f * _tray.scale.x;
-                        Color lineNumColor = itemTrueIndex % 2 > 0 ? Color.Gray * 0.4f : Color.Gray * 0.6f;
+                        Color lineNumColor = lineNum % 2 > 0 ? Color.Gray * 0.4f : Color.Gray * 0.6f;
 
                         string originalLineText = dcLine.SectionString() + dcLine.line;
                         
@@ -1180,12 +1181,10 @@ namespace DuckGame
 
                 if (!DGRSettings.NoConsoleLineLimit && _core.lines.Count > 3000)
                 {
-                    for (int index = 0; index < 500; ++index)
-                    {
-                        _core.lines.Dequeue();
-                        if (_core.viewOffset > 0)
-                            --_core.viewOffset;
-                    }
+                    _core.lines.Dequeue();
+                    if (_core.viewOffset > 0)
+                        --_core.viewOffset;
+                    _core.lineOffset++;
                 }
 
                 _core.pendingLines.Clear();

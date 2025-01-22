@@ -13,6 +13,7 @@ namespace DuckGame
         public Queue<NetMessage> pendingSends = new Queue<NetMessage>();
         public bool constantSync;
         public int viewOffset;
+        public int lineOffset = 0;
         public int logScores = -1;
         public Queue<DCLine> lines = new Queue<DCLine>();
         public List<DCLine> pendingLines = new List<DCLine>();
